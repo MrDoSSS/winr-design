@@ -3,12 +3,8 @@ export declare type ValidatorOptions = {
   name: string;
   [prop: string]: any;
 };
-export declare type ValidateResult = {
-  isValid: boolean;
-  errors: ValidateError[];
-};
 export interface Validator {
-  validate(value: string, id: string, opts: ValidatorOptions): ValidateResult;
+  validate(value: string, id: string, opts: ValidatorOptions): void;
 }
 export declare const validators: {
   [name: string]: Validator;

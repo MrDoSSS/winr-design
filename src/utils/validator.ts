@@ -5,13 +5,8 @@ export type ValidatorOptions = {
   [prop: string]: any
 }
 
-export type ValidateResult = {
-  isValid: boolean
-  errors: ValidateError[]
-}
-
 export interface Validator {
-  validate (value: string, id: string, opts: ValidatorOptions): ValidateResult
+  validate (value: string, id: string, opts: ValidatorOptions): void
 }
 
 export const validators: { [name: string]: Validator } = {}
