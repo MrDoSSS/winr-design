@@ -51,8 +51,8 @@ const WinrInput = class extends HTMLElement {
       validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
     }, 300);
   }
-  validateResult(errors) {
-    this.errors = errors;
+  validateResult(e) {
+    this.errors = e.detail;
   }
   render() {
     return (h(Host, null, h("input", { placeholder: this.label, value: this.value, onInput: (e) => this.updateValue(e) }), h("label", null, this.label), h("ul", { class: "errors" }, this.errors.map(e => h("li", null, e)))));

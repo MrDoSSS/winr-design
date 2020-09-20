@@ -24,8 +24,8 @@ export class WinrInput {
       validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
     }, 300);
   }
-  validateResult(errors) {
-    this.errors = errors;
+  validateResult(e) {
+    this.errors = e.detail;
   }
   render() {
     return (h(Host, null,

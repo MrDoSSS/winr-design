@@ -46,8 +46,8 @@ const WinrInput = class {
       validator.validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
     }, 300);
   }
-  validateResult(errors) {
-    this.errors = errors;
+  validateResult(e) {
+    this.errors = e.detail;
   }
   render() {
     return (index.h(index.Host, null, index.h("input", { placeholder: this.label, value: this.value, onInput: (e) => this.updateValue(e) }), index.h("label", null, this.label), index.h("ul", { class: "errors" }, this.errors.map(e => index.h("li", null, e)))));
