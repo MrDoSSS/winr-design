@@ -45,14 +45,13 @@ const WinrInput = class extends HTMLElement {
   validate(value) {
     if (!this.validable)
       return;
+    if (this.validateTimeout)
+      window.clearTimeout(this.validateTimeout);
     this.validateTimeout = window.setTimeout(() => {
-      if (this.validateTimeout)
-        window.clearTimeout(this.validateTimeout);
       validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
     }, 300);
   }
   validateResult(e) {
-    console.log(e);
     this.errors = e.detail;
   }
   render() {

@@ -35,17 +35,15 @@ export class WinrInput {
   @Watch('value')
   validate (value: string) {
     if (!this.validable) return
+    if (this.validateTimeout) window.clearTimeout(this.validateTimeout)
 
     this.validateTimeout = window.setTimeout(() => {
-      if (this.validateTimeout) window.clearTimeout(this.validateTimeout)
-
       validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator)
     }, 300)
   }
 
   @Listen('validateResult')
   validateResult (e: CustomEvent<ValidateError[]>) {
-    console.log(e)
     this.errors = e.detail
   }
 
