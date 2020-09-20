@@ -47,6 +47,7 @@ const WinrInput = class {
     }, 300);
   }
   validateResult(e) {
+    console.log(e);
     this.errors = e.detail;
   }
   render() {

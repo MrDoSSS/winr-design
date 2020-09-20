@@ -12,6 +12,6 @@ export declare class WinrInput {
   parseValidator(newValue: string): void;
   updateValue(e: InputEvent): void;
   validate(value: string): void;
-  validateResult(e: CustomEvent): void;
+  validateResult(e: CustomEvent<ValidateError[]>): void;
   render(): any;
 }

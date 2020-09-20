@@ -44,7 +44,8 @@ export class WinrInput {
   }
 
   @Listen('validateResult')
-  validateResult (e: CustomEvent) {
+  validateResult (e: CustomEvent<ValidateError[]>) {
+    console.log(e)
     this.errors = e.detail
   }
 
