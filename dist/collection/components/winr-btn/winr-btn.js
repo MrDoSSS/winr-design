@@ -1,6 +1,7 @@
 import { Component, h, Prop } from '@stencil/core';
 export class WinrBtn {
   constructor() {
+    this.type = 'primary';
     this.loading = false;
   }
   render() {
@@ -21,8 +22,8 @@ export class WinrBtn {
       "type": "string",
       "mutable": false,
       "complexType": {
-        "original": "string",
-        "resolved": "string",
+        "original": "'primary' | 'secondary'",
+        "resolved": "\"primary\" | \"secondary\"",
         "references": {}
       },
       "required": false,
@@ -32,7 +33,8 @@ export class WinrBtn {
         "text": ""
       },
       "attribute": "type",
-      "reflect": false
+      "reflect": false,
+      "defaultValue": "'primary'"
     },
     "loading": {
       "type": "boolean",

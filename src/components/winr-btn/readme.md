@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type      | Default     |
-| --------- | --------- | ----------- | --------- | ----------- |
-| `loading` | `loading` |             | `boolean` | `false`     |
-| `type`    | `type`    |             | `string`  | `undefined` |
+| Property  | Attribute | Description | Type                       | Default     |
+| --------- | --------- | ----------- | -------------------------- | ----------- |
+| `loading` | `loading` |             | `boolean`                  | `false`     |
+| `type`    | `type`    |             | `"primary" \| "secondary"` | `'primary'` |
 
 
 ----------------------------------------------

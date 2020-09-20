@@ -1,4 +1,6 @@
-import { Config } from '@stencil/core';
+import { Config } from '@stencil/core'
+import alias from '@rollup/plugin-alias'
+import path from 'path'
 
 export const config: Config = {
   namespace: 'winr-components',
@@ -18,4 +20,11 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
-};
+  plugins: [
+    alias({
+      entries: [
+        { find: '@', replacement: path.resolve(path.resolve(__dirname), 'src') },
+      ]
+    })
+  ]
+}

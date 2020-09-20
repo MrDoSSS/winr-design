@@ -6,10 +6,10 @@ import { Component, h, Prop } from '@stencil/core'
   shadow: true,
 })
 export class WinrBtn {
-  @Prop() type: string
+  @Prop() type: 'primary' | 'secondary' = 'primary'
   @Prop() loading: boolean = false
 
-  render() {
+  render () {
     return (
       <button class={{ [this.type]: true, loading: this.loading }}>
         <span>

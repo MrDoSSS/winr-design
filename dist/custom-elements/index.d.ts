@@ -8,6 +8,12 @@ export const WinrBtn: {
   new (): WinrBtn;
 };
 
+interface WinrInput extends Components.WinrInput, HTMLElement {}
+export const WinrInput: {
+  prototype: WinrInput;
+  new (): WinrInput;
+};
+
 interface WinrModal extends Components.WinrModal, HTMLElement {}
 export const WinrModal: {
   prototype: WinrModal;

@@ -8,7 +8,12 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 export namespace Components {
     interface WinrBtn {
         "loading": boolean;
-        "type": string;
+        "type": 'primary' | 'secondary';
+    }
+    interface WinrInput {
+        "label": string;
+        "validable": boolean;
+        "validator": string;
     }
     interface WinrModal {
         "caption": string;
@@ -23,6 +28,12 @@ declare global {
         prototype: HTMLWinrBtnElement;
         new (): HTMLWinrBtnElement;
     };
+    interface HTMLWinrInputElement extends Components.WinrInput, HTMLStencilElement {
+    }
+    var HTMLWinrInputElement: {
+        prototype: HTMLWinrInputElement;
+        new (): HTMLWinrInputElement;
+    };
     interface HTMLWinrModalElement extends Components.WinrModal, HTMLStencilElement {
     }
     var HTMLWinrModalElement: {
@@ -31,13 +42,19 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "winr-btn": HTMLWinrBtnElement;
+        "winr-input": HTMLWinrInputElement;
         "winr-modal": HTMLWinrModalElement;
     }
 }
 declare namespace LocalJSX {
     interface WinrBtn {
         "loading"?: boolean;
-        "type"?: string;
+        "type"?: 'primary' | 'secondary';
+    }
+    interface WinrInput {
+        "label": string;
+        "validable"?: boolean;
+        "validator"?: string;
     }
     interface WinrModal {
         "caption"?: string;
@@ -46,6 +63,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "winr-btn": WinrBtn;
+        "winr-input": WinrInput;
         "winr-modal": WinrModal;
     }
 }
@@ -54,6 +72,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "winr-btn": LocalJSX.WinrBtn & JSXBase.HTMLAttributes<HTMLWinrBtnElement>;
+            "winr-input": LocalJSX.WinrInput & JSXBase.HTMLAttributes<HTMLWinrInputElement>;
             "winr-modal": LocalJSX.WinrModal & JSXBase.HTMLAttributes<HTMLWinrModalElement>;
         }
     }
