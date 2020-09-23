@@ -1,16 +1,15 @@
 import { Component, h, Prop } from '@stencil/core';
 export class WinrBtn {
   constructor() {
-    this.type = 'primary';
+    this.kind = 'primary';
     this.loading = false;
   }
   render() {
-    return (h("button", { class: { [this.type]: true, loading: this.loading } },
+    return (h("button", { class: { [this.kind]: true, loading: this.loading } },
       h("span", null,
         h("slot", null))));
   }
   static get is() { return "winr-btn"; }
-  static get encapsulation() { return "shadow"; }
   static get originalStyleUrls() { return {
     "$": ["winr-btn.css"]
   }; }
@@ -18,7 +17,7 @@ export class WinrBtn {
     "$": ["winr-btn.css"]
   }; }
   static get properties() { return {
-    "type": {
+    "kind": {
       "type": "string",
       "mutable": false,
       "complexType": {
@@ -32,7 +31,7 @@ export class WinrBtn {
         "tags": [],
         "text": ""
       },
-      "attribute": "type",
+      "attribute": "kind",
       "reflect": false,
       "defaultValue": "'primary'"
     },

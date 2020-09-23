@@ -1,6 +1,7 @@
 {
   "entries": [
     "./components/winr-btn/winr-btn.js",
+    "./components/winr-form/winr-form.js",
     "./components/winr-input/winr-input.js",
     "./components/winr-modal/winr-modal.js"
   ],

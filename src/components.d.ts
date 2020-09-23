@@ -7,8 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface WinrBtn {
+        "kind": 'primary' | 'secondary';
         "loading": boolean;
-        "type": 'primary' | 'secondary';
+    }
+    interface WinrForm {
     }
     interface WinrInput {
         "label": string;
@@ -28,6 +30,12 @@ declare global {
         prototype: HTMLWinrBtnElement;
         new (): HTMLWinrBtnElement;
     };
+    interface HTMLWinrFormElement extends Components.WinrForm, HTMLStencilElement {
+    }
+    var HTMLWinrFormElement: {
+        prototype: HTMLWinrFormElement;
+        new (): HTMLWinrFormElement;
+    };
     interface HTMLWinrInputElement extends Components.WinrInput, HTMLStencilElement {
     }
     var HTMLWinrInputElement: {
@@ -42,14 +50,17 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "winr-btn": HTMLWinrBtnElement;
+        "winr-form": HTMLWinrFormElement;
         "winr-input": HTMLWinrInputElement;
         "winr-modal": HTMLWinrModalElement;
     }
 }
 declare namespace LocalJSX {
     interface WinrBtn {
+        "kind"?: 'primary' | 'secondary';
         "loading"?: boolean;
-        "type"?: 'primary' | 'secondary';
+    }
+    interface WinrForm {
     }
     interface WinrInput {
         "label": string;
@@ -63,6 +74,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "winr-btn": WinrBtn;
+        "winr-form": WinrForm;
         "winr-input": WinrInput;
         "winr-modal": WinrModal;
     }
@@ -72,6 +84,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "winr-btn": LocalJSX.WinrBtn & JSXBase.HTMLAttributes<HTMLWinrBtnElement>;
+            "winr-form": LocalJSX.WinrForm & JSXBase.HTMLAttributes<HTMLWinrFormElement>;
             "winr-input": LocalJSX.WinrInput & JSXBase.HTMLAttributes<HTMLWinrInputElement>;
             "winr-modal": LocalJSX.WinrModal & JSXBase.HTMLAttributes<HTMLWinrModalElement>;
         }

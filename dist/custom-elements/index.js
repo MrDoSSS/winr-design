@@ -1,4 +1,4 @@
-import { attachShadow, h, Host, createEvent, proxyCustomElement } from '@stencil/core/internal/client';
+import { h, attachShadow, Host, createEvent, proxyCustomElement } from '@stencil/core/internal/client';
 export { setAssetPath } from '@stencil/core/internal/client';
 
 const validators = {};
@@ -12,14 +12,27 @@ const WinrBtn = class extends HTMLElement {
   constructor() {
     super();
     this.__registerHost();
-    attachShadow(this);
-    this.type = 'primary';
+    this.kind = 'primary';
     this.loading = false;
   }
   render() {
-    return (h("button", { class: { [this.type]: true, loading: this.loading } }, h("span", null, h("slot", null))));
+    return (h("button", { class: { [this.kind]: true, loading: this.loading } }, h("span", null, h("slot", null))));
   }
   static get style() { return winrBtnCss; }
+};
+
+const winrFormCss = ":host{display:block}";
+
+const WinrForm = class extends HTMLElement {
+  constructor() {
+    super();
+    this.__registerHost();
+    attachShadow(this);
+  }
+  render() {
+    return (h(Host, null, h("form", null, h("slot", null))));
+  }
+  static get style() { return winrFormCss; }
 };
 
 const winrInputCss = ":host{display:block;position:relative;--paddint-top:1.25rem}input{padding:var(--paddint-top) 0 0.25rem;display:block;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:none;border-bottom:0.05rem solid #ced4da;outline:none;appearance:none;transition:border-color 0.15s ease-in-out}input::placeholder{opacity:0}label{padding-top:calc(var(--paddint-top) + 0.2rem);position:absolute;top:0;left:0;display:block;font-size:1rem;line-height:1em;width:100%;color:#495057;pointer-events:none;cursor:text;border-left:0.01rem solid transparent;transition:padding 0.1s ease-in-out, font-size 0.1s ease-in-out;box-sizing:border-box}input:not(:placeholder-shown)~label{padding-top:0.5rem;font-size:0.75rem;border:none;color:#777}.errors{list-style:none;margin:0.3rem 0 0;padding:0}";
@@ -96,13 +109,15 @@ const WinrModal = class extends HTMLElement {
   static get style() { return winrModalCss; }
 };
 
-const WinrBtn$1 = /*@__PURE__*/proxyCustomElement(WinrBtn, [1,"winr-btn",{"type":[1],"loading":[4]}]);
+const WinrBtn$1 = /*@__PURE__*/proxyCustomElement(WinrBtn, [4,"winr-btn",{"kind":[1],"loading":[4]}]);
+const WinrForm$1 = /*@__PURE__*/proxyCustomElement(WinrForm, [1,"winr-form"]);
 const WinrInput$1 = /*@__PURE__*/proxyCustomElement(WinrInput, [1,"winr-input",{"label":[1],"validable":[4],"validator":[1],"innerValidator":[32],"value":[32],"errors":[32]},[[0,"validateResult","validateResult"]]]);
 const WinrModal$1 = /*@__PURE__*/proxyCustomElement(WinrModal, [1,"winr-modal",{"caption":[1],"shown":[32]},[[2,"click","handleBackdropClick"]]]);
 const defineCustomElements = (opts) => {
   if (typeof customElements !== 'undefined') {
     [
       WinrBtn$1,
+  WinrForm$1,
   WinrInput$1,
   WinrModal$1
     ].forEach(cmp => {
@@ -113,4 +128,4 @@ const defineCustomElements = (opts) => {
   }
 };
 
-export { WinrBtn$1 as WinrBtn, WinrInput$1 as WinrInput, WinrModal$1 as WinrModal, addValidator, defineCustomElements, validators };
+export { WinrBtn$1 as WinrBtn, WinrForm$1 as WinrForm, WinrInput$1 as WinrInput, WinrModal$1 as WinrModal, addValidator, defineCustomElements, validators };

@@ -1,0 +1,835 @@
+@charset "UTF-8";
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+/**
+ * Remove the margin in all browsers.
+ */
+body {
+  margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+main {
+  display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+pre {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+a {
+  background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  text-decoration: underline dotted;
+  /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+img {
+  border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  white-space: normal;
+  /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+[type=search] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+/**
+ * Add the correct display in IE 10+.
+ */
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+[hidden] {
+  display: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  outline: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+@font-face {
+  font-family: "Root UI";
+  font-weight: 300;
+  font-style: normal;
+  src: url("/fonts/PT_Root_UI_Light.eot#iefix") format("embedded-opentype"), url("/fonts/PT_Root_UI_Light.woff2") format("woff2"), url("/fonts/PT_Root_UI_Light.woff") format("woff"), url("/fonts/PT_Root_UI_Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Root UI";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/PT_Root_UI_Regular.eot#iefix") format("embedded-opentype"), url("/fonts/PT_Root_UI_Regular.woff2") format("woff2"), url("/fonts/PT_Root_UI_Regular.woff") format("woff"), url("/fonts/PT_Root_UI_Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Root UI";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/fonts/PT_Root_UI_Medium.eot#iefix") format("embedded-opentype"), url("/fonts/PT_Root_UI_Medium.woff2") format("woff2"), url("/fonts/PT_Root_UI_Medium.woff") format("woff"), url("/fonts/PT_Root_UI_Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Root UI";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/fonts/PT_Root_UI_Bold.eot#iefix") format("embedded-opentype"), url("/fonts/PT_Root_UI_Bold.woff2") format("woff2"), url("/fonts/PT_Root_UI_Bold.woff") format("woff"), url("/fonts/PT_Root_UI_Bold.ttf") format("truetype");
+}
+:root {
+  --wds__background-color: rgb(255, 255, 255);
+  --wds__background-color-base: 255, 255, 255;
+  --wds__text-color: rgb(5, 5, 5);
+  --wds__text-color-base: 5, 5, 5;
+  --wds__main-color: rgb(255, 221, 0);
+  --wds__main-color-base: 255, 221, 0;
+  --wds__accent-color: rgb(0, 0, 0);
+  --wds__accent-color-base: 0, 0, 0;
+  --wds__surface-color: rgb(245, 245, 245);
+  --wds__surface-color-base: 245, 245, 245;
+  --wds__error-color: rgb(240, 84, 95);
+  --wds__error-color-base: 240, 84, 95;
+  --wds__success-color: rgb(84, 180, 140);
+  --wds__success-color-base: 84, 180, 140;
+  --wds__mark-color: rgb(255, 248, 128);
+  --wds__mark-color-base: 255, 248, 128;
+  --wds__code-color: rgb(200, 0, 0);
+  --wds__code-color-base: 200, 0, 0;
+  --wds__on-main-color: rgb(5, 5, 5);
+  --wds__on-main-color-base: 5, 5, 5;
+  --wds__on-accent-color: rgb(255, 255, 255);
+  --wds__on-accent-color-base: 255, 255, 255;
+  --wds__on-background-color: rgb(5, 5, 5);
+  --wds__on-background-color-base: 5, 5, 5;
+  --wds__on-surface-color: rgb(5, 5, 5);
+  --wds__on-surface-color-base: 5, 5, 5;
+  --wds__on-error-color: rgb(255, 255, 255);
+  --wds__on-error-color-base: 255, 255, 255;
+  --wds__on-success-color: rgb(255, 255, 255);
+  --wds__on-success-color-base: 255, 255, 255;
+  --wds__divider-color: rgba(5, 5, 5, 0.1);
+  --wds__link-color: rgb(0, 100, 240);
+  --wds__link-color-base: 0, 100, 240;
+  --wds__link-underline-color: rgba(0, 100, 240, 0.2);
+  --wds__link-hover-color: rgb(0, 220, 0);
+  --wds__link-hover-color-base: 0, 220, 0;
+  --wds__link-underline-hover-color: rgba(0, 220, 0, 0.2);
+  --wds__button-color: rgb(0, 0, 0);
+  --wds__button-color-base: 0, 0, 0;
+  --wds__button-hover-color: rgba(0, 0, 0, 0.8);
+  --wds__button-text-color: rgb(255, 255, 255);
+  --wds__button-text-color-base: 255, 255, 255;
+  --wds__button-disabled-color: rgba(0, 0, 0, 0.3);
+}
+
+:root.dark-theme {
+  --wds__background-color: rgb(40, 40, 40);
+  --wds__background-color-base: 40, 40, 40;
+  --wds__text-color: rgb(255, 255, 255);
+  --wds__text-color-base: 255, 255, 255;
+  --wds__main-color: rgb(255, 221, 0);
+  --wds__main-color-base: 255, 221, 0;
+  --wds__accent-color: rgb(255, 255, 255);
+  --wds__accent-color-base: 255, 255, 255;
+  --wds__surface-color: rgb(60, 60, 60);
+  --wds__surface-color-base: 60, 60, 60;
+  --wds__error-color: rgb(229, 0, 60);
+  --wds__error-color-base: 229, 0, 60;
+  --wds__success-color: rgb(0, 229, 121);
+  --wds__success-color-base: 0, 229, 121;
+  --wds__mark-color: rgb(100, 100, 100);
+  --wds__mark-color-base: 100, 100, 100;
+  --wds__code-color: rgb(200, 50, 50);
+  --wds__code-color-base: 200, 50, 50;
+  --wds__on-main-color: rgb(5, 5, 5);
+  --wds__on-main-color-base: 5, 5, 5;
+  --wds__on-accent-color: rgb(40, 40, 40);
+  --wds__on-accent-color-base: 40, 40, 40;
+  --wds__on-background-color: rgb(255, 255, 255);
+  --wds__on-background-color-base: 255, 255, 255;
+  --wds__on-surface-color: rgb(255, 255, 255);
+  --wds__on-surface-color-base: 255, 255, 255;
+  --wds__on-error-color: rgb(255, 255, 255);
+  --wds__on-error-color-base: 255, 255, 255;
+  --wds__on-success-color: rgb(255, 255, 255);
+  --wds__on-success-color-base: 255, 255, 255;
+  --wds__divider-color: rgba(255, 255, 255, 0.1);
+  --wds__link-color: rgb(80, 150, 255);
+  --wds__link-color-base: 80, 150, 255;
+  --wds__link-underline-color: rgba(80, 150, 255, 0.3);
+  --wds__link-hover-color: rgb(100, 230, 100);
+  --wds__link-hover-color-base: 100, 230, 100;
+  --wds__link-underline-hover-color: rgba(100, 230, 100, 0.3);
+  --wds__button-color: rgb(255, 255, 255);
+  --wds__button-color-base: 255, 255, 255;
+  --wds__button-hover-color: rgba(255, 255, 255, 0.8);
+  --wds__button-text-color: rgb(40, 40, 40);
+  --wds__button-text-color-base: 40, 40, 40;
+  --wds__button-disabled-color: rgba(255, 255, 255, 0.3);
+}
+
+img {
+  border-radius: calc(0.3em / 3);
+}
+
+.wds__stack-XS {
+  height: 1.3em;
+}
+@media (max-device-width: 767px) {
+  .wds__stack-XS {
+    height: calc(1.3em / 3);
+  }
+}
+.wds__stack-S {
+  height: 2.6em;
+}
+@media (max-device-width: 767px) {
+  .wds__stack-S {
+    height: calc(1.3em / 2);
+  }
+}
+.wds__stack-M {
+  height: 5.2em;
+}
+@media (max-device-width: 767px) {
+  .wds__stack-M {
+    height: 1.3em;
+  }
+}
+.wds__stack-L {
+  height: 10.4em;
+}
+@media (max-device-width: 767px) {
+  .wds__stack-L {
+    height: calc(1.3em * 2);
+  }
+}
+.wds__stack-XL {
+  height: 20.8em;
+}
+@media (max-device-width: 767px) {
+  .wds__stack-XL {
+    height: calc(1.3em * 4);
+  }
+}
+
+.wds__wrapper {
+  position: relative;
+  width: 76%;
+  margin: 0 auto;
+}
+@media (max-device-width: 767px) {
+  .wds__wrapper {
+    width: 100%;
+    padding: 0 calc(1.3em * 0.6);
+  }
+}
+.wds__wrapper.wds__full-width {
+  width: 100%;
+  padding: 0 calc(1.3em * 0.75);
+}
+@media (max-device-width: 767px) {
+  .wds__wrapper.wds__full-width {
+    padding: 0 calc(1.3em * 0.6);
+  }
+}
+.wds__wrapper.wds__edge-to-edge {
+  width: 100%;
+}
+.wds__wrapper.wds__shift-right {
+  padding-left: 6em;
+}
+.wds__wrapper.wds__shift-left {
+  padding-right: 6em;
+}
+
+.wds {
+  color: var(--wds__text-color);
+  background-color: var(--wds__background-color);
+  font-family: "Root UI", Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.3em;
+}
+@media screen and (max-width: 1350px) {
+  .wds {
+    font-size: 19px;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .wds {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 1250px) {
+  .wds {
+    font-size: 17px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .wds {
+    font-size: 16px;
+  }
+}
+@media (max-device-width: 767px) {
+  .wds {
+    font-size: 17px;
+    line-height: 1.3em;
+  }
+}
+
+.wds__section {
+  margin-top: calc(1.3em * 1.5);
+}
+@media (max-device-width: 767px) {
+  .wds__section {
+    margin-top: calc(1.3em / 2);
+  }
+}
+
+.wds__text {
+  width: 85%;
+}
+@media (max-device-width: 767px) {
+  .wds__text {
+    width: 100%;
+  }
+}
+
+.wds__grid {
+  margin-top: calc(1.3em * 1);
+  display: flex;
+  flex-wrap: wrap;
+}
+.wds__grid .wds__grid-cell {
+  width: 50%;
+}
+@media (max-device-width: 767px) {
+  .wds__grid .wds__grid-cell {
+    width: 100%;
+  }
+}
+
+.wds a {
+  color: var(--wds__link-color);
+  border-bottom: 1px solid var(--wds__link-underline-color);
+  text-decoration: none;
+}
+.wds a:hover {
+  color: var(--wds__link-hover-color);
+  border-bottom: 1px solid var(--wds__link-underline-hover-color);
+}
+.wds p {
+  margin-top: 0;
+  margin-bottom: calc(1.3em * 0.4);
+}
+.wds .wds__lead {
+  font-size: 1.2em;
+  font-weight: 500;
+  line-height: 1.3em;
+  margin-bottom: calc(1.3em * 0.4);
+}
+@media (max-device-width: 767px) {
+  .wds .wds__lead {
+    font-size: 1em;
+    line-height: 1.3em;
+  }
+}
+.wds h1,
+.wds h2,
+.wds h3,
+.wds h4,
+.wds h5,
+.wds h6 {
+  margin: 0;
+  font-weight: 600;
+}
+.wds h1 mark,
+.wds h2 mark,
+.wds h3 mark,
+.wds h4 mark,
+.wds h5 mark,
+.wds h6 mark {
+  background: none;
+  box-shadow: inset 0 -0.15em var(--wds__background-color), inset 0 -0.5em var(--wds__mark-color);
+}
+.wds h1 {
+  font-size: 3.8em;
+  line-height: calc(1.3em / 1.3);
+  margin-bottom: 0.4em;
+}
+@media (max-device-width: 767px) {
+  .wds h1 {
+    font-size: 2.8em;
+  }
+}
+.wds h2 {
+  font-size: 2.5em;
+  line-height: calc(1.3em / 1.2);
+  margin-bottom: 0.5em;
+}
+@media (max-device-width: 767px) {
+  .wds h2 {
+    font-size: 2.2em;
+  }
+}
+.wds h3 {
+  font-size: 1.5em;
+  line-height: calc(1.3em / 1.1);
+  margin-bottom: 0.6em;
+}
+@media (max-device-width: 767px) {
+  .wds h3 {
+    font-size: 1.2em;
+  }
+}
+.wds h4 {
+  font-size: 1em;
+  line-height: 1.3em;
+  margin-bottom: 0.6em;
+}
+.wds h5 {
+  font-size: 0.8em;
+  line-height: 1.3em;
+  margin-bottom: 0.7em;
+}
+.wds h6 {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  line-height: 1.3em;
+  margin-bottom: 0.7em;
+}
+.wds strong,
+.wds b {
+  font-weight: 600;
+}
+.wds mark {
+  color: var(--wds__text-color);
+  background-color: var(--wds__mark-color);
+}
+.wds ul,
+.wds ol {
+  margin: 0 0 calc(1.3em * 0.75) 0;
+  padding: 0;
+}
+.wds ul li,
+.wds ol li {
+  position: relative;
+  margin-bottom: calc(1.3em * 0.5);
+}
+.wds ul li {
+  list-style-type: none;
+  padding-left: calc(1.3em * 0.75);
+}
+.wds ul li:before {
+  position: absolute;
+  left: 0;
+  content: "⋅ ";
+}
+.wds ul.checked li:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  background-image: url("/assets/images/icon-check-mark.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 0.7em;
+  height: 0.7em;
+}
+.wds ol li {
+  list-style: decimal inside none;
+}
+.wds blockquote {
+  font-size: 1.4em;
+  line-height: 1.3em;
+  margin: 0;
+  padding-left: calc(1.3em * 0.75);
+  margin-bottom: 1.3em;
+}
+.wds aside {
+  margin: 0;
+  margin-bottom: calc(1.3em * 0.75);
+  background: var(--wds__surface-color);
+  padding: calc(1.3em * 0.75);
+  padding-right: calc(1.3em * 2);
+  border-radius: 0.3em;
+}
+.wds code {
+  font-family: "Root UI", Arial, sans-serif;
+  font-weight: 500;
+  padding: calc(0.4em / 3) 0.4em calc(0.5em / 3);
+  background: var(--wds__surface-color);
+  color: var(--wds__code-color);
+}
+.wds figure {
+  margin: 0 0 calc(1.3em * 0.5) 0;
+}
+.wds figure.wds__figure__XXS {
+  width: 25%;
+}
+.wds figure.wds__figure__XS {
+  width: 50%;
+}
+.wds figure.wds__figure__S {
+  width: 75%;
+}
+.wds figure figcaption {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+.wds details {
+  padding: 0.5em;
+  cursor: pointer;
+  border: 1px solid var(--wds__divider-color);
+  border-radius: 0.3em;
+}
+.wds details summary {
+  padding-bottom: calc(0.4em / 3) 0.4em calc(0.5em / 3);
+}
+.wds .wds__error-color {
+  color: var(--wds__error-color);
+}
+.wds .wds__success-color {
+  color: var(--wds__success-color);
+}
+.wds .wds__label {
+  display: inline-block;
+  padding: calc(0.4em / 3) 0.4em calc(0.5em / 3);
+  background-color: var(--wds__accent-color);
+  color: var(--wds__on-accent-color);
+  border: 2px solid var(--wds__accent-color);
+  border-radius: 0.3em;
+}
+.wds .wds__label.outline {
+  background-color: var(--wds__on-accent-color);
+  color: var(--main-color);
+  border: 2px solid var(--wds__accent-color);
+}
+
+.wds form {
+  margin: 0 0 0.6em 0;
+}
+.wds button {
+  border: 0;
+  background-color: var(--wds__accent-color);
+  color: var(--wds__on-accent-color);
+  border-radius: 0.3em;
+  padding: 0.4em 1em 0.5em;
+  cursor: pointer;
+}
+.wds button:hover {
+  background-color: rgba(var(--wds__accent-color-base), 0.8);
+  color: var(--wds__on-accent-color);
+}
+.wds .pswp button {
+  background-color: transparent;
+}
+.wds .pswp button:hover {
+  background-color: transparent;
+}
+
+.wds__devider-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--wds__divider-color);
+  margin-bottom: 1.3em;
+}

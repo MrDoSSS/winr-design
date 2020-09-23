@@ -9,8 +9,8 @@
 
 | Property  | Attribute | Description | Type                       | Default     |
 | --------- | --------- | ----------- | -------------------------- | ----------- |
+| `kind`    | `kind`    |             | `"primary" \| "secondary"` | `'primary'` |
 | `loading` | `loading` |             | `boolean`                  | `false`     |
-| `type`    | `type`    |             | `"primary" \| "secondary"` | `'primary'` |
 
 
 ----------------------------------------------

@@ -1,5 +1,5 @@
 export declare class WinrBtn {
-  type: 'primary' | 'secondary';
+  kind: 'primary' | 'secondary';
   loading: boolean;
   render(): any;
 }
