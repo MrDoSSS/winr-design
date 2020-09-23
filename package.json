@@ -10,6 +10,7 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/winr-components/winr-components.js",
+  "style": "dist/winr-components/winr-components.css",
   "files": [
     "dist/",
     "loader/"
