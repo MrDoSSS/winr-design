@@ -9,10 +9,7 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'dist',
-      esmLoaderPath: '../loader',
-      copy: [
-        { src: 'global/fonts', warn: true, dest: 'fonts' }
-      ]
+      esmLoaderPath: '../loader'
     },
     {
       type: 'dist-custom-elements-bundle',
@@ -23,10 +20,7 @@ export const config: Config = {
     },
     {
       type: 'www',
-      serviceWorker: null, // disable service workers
-      copy: [
-        { src: 'global/fonts', warn: true, dest: 'fonts' }
-      ]
+      serviceWorker: null
     },
   ],
   plugins: [
