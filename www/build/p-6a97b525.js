@@ -1,4 +1,4 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-7d379cbb.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-bbbd9368.js';
 import { g as globalScripts } from './app-globals-0f993ce5.js';
 
 /*
@@ -118,5 +118,5 @@ const patchCloneNodeFix = (HTMLElementPrototype) => {
 
 patchBrowser().then(options => {
   globalScripts();
-  return bootstrapLazy([["winr-btn",[[4,"winr-btn",{"kind":[1],"loading":[4]}]]],["winr-form",[[1,"winr-form"]]],["winr-input",[[1,"winr-input",{"label":[1],"validable":[4],"validator":[1],"innerValidator":[32],"value":[32],"errors":[32]},[[0,"validateResult","validateResult"]]]]],["winr-modal",[[1,"winr-modal",{"caption":[1],"shown":[32],"show":[64],"hide":[64]},[[2,"click","handleBackdropClick"]]]]]], options);
+  return bootstrapLazy([["winr-btn",[[4,"winr-btn",{"kind":[1],"loading":[4],"type":[1],"disabled":[4]}]]],["winr-form",[[4,"winr-form",null,[[2,"submit","submit"]]]]],["winr-input",[[0,"winr-input",{"label":[1],"noValidate":[4,"no-validate"],"validators":[1],"errors":[1],"inputAttrs":[1,"input-attrs"],"value":[1025],"valid":[32],"innerInputAttrs":[32],"innerErrors":[32]},[[0,"validateResult","validateResult"]]]]],["winr-modal",[[1,"winr-modal",{"caption":[1],"shown":[32],"show":[64],"hide":[64]},[[2,"click","handleBackdropClick"]]]]]], options);
 });

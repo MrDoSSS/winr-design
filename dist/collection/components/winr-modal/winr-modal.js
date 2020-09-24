@@ -69,8 +69,8 @@ export class WinrModal {
         "text": ""
       },
       "complexType": {
-        "original": "any",
-        "resolved": "any",
+        "original": "void",
+        "resolved": "void",
         "references": {}
       }
     }, {
@@ -84,8 +84,8 @@ export class WinrModal {
         "text": ""
       },
       "complexType": {
-        "original": "any",
-        "resolved": "any",
+        "original": "void",
+        "resolved": "void",
         "references": {}
       }
     }]; }

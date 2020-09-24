@@ -3,9 +3,10 @@ export class WinrBtn {
   constructor() {
     this.kind = 'primary';
     this.loading = false;
+    this.type = 'button';
   }
   render() {
-    return (h("button", { class: { [this.kind]: true, loading: this.loading } },
+    return (h("button", { class: { [this.kind]: true, loading: this.loading }, type: this.type, disabled: this.disabled },
       h("span", null,
         h("slot", null))));
   }
@@ -52,6 +53,41 @@ export class WinrBtn {
       "attribute": "loading",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "type": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "'button' | 'submit' | 'reset'",
+        "resolved": "\"button\" | \"reset\" | \"submit\"",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "type",
+      "reflect": false,
+      "defaultValue": "'button'"
+    },
+    "disabled": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "disabled",
+      "reflect": false
     }
   }; }
 }

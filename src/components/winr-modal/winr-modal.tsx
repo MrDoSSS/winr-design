@@ -8,30 +8,30 @@ import { Component, Host, h, Prop, State, Method, Event, EventEmitter, Listen, E
 export class WinrModal {
   @Prop() caption: string
   @State() shown: boolean = false
-  @Event() opened: EventEmitter
-  @Event() closed: EventEmitter
+  @Event() opened: EventEmitter<void>
+  @Event() closed: EventEmitter<void>
   @Element() el: HTMLElement
 
   @Method()
-  async show() {
+  async show () {
     this.shown = true
     this.opened.emit()
   }
 
   @Method()
-  async hide() {
+  async hide () {
     this.shown = false
     this.closed.emit()
   }
 
   @Listen('click', { capture: true })
-  handleBackdropClick(e: MouseEvent) {
+  handleBackdropClick (e: MouseEvent) {
     if (this.el !== e.composedPath()[0]) return
 
     this.hide()
   }
 
-  render() {
+  render () {
     return (
       <Host class={{ shown: this.shown }}>
         <div class="content">

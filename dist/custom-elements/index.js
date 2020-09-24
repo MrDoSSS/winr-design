@@ -1,4 +1,4 @@
-import { h, attachShadow, Host, createEvent, proxyCustomElement } from '@stencil/core/internal/client';
+import { h, Host, attachShadow, createEvent, proxyCustomElement } from '@stencil/core/internal/client';
 export { setAssetPath } from '@stencil/core/internal/client';
 
 const validators = {};
@@ -14,66 +14,128 @@ const WinrBtn = class extends HTMLElement {
     this.__registerHost();
     this.kind = 'primary';
     this.loading = false;
+    this.type = 'button';
   }
   render() {
-    return (h("button", { class: { [this.kind]: true, loading: this.loading } }, h("span", null, h("slot", null))));
+    return (h("button", { class: { [this.kind]: true, loading: this.loading }, type: this.type, disabled: this.disabled }, h("span", null, h("slot", null))));
   }
   static get style() { return winrBtnCss; }
 };
-
-const winrFormCss = ":host{display:block}";
 
 const WinrForm = class extends HTMLElement {
   constructor() {
     super();
     this.__registerHost();
-    attachShadow(this);
+    this.inputObserver = new MutationObserver(this.setValidState.bind(this));
+  }
+  get form() {
+    return this.el.querySelector('form');
+  }
+  componentDidRender() {
+    this.submitBtns = this.findSubmitBtns();
+  }
+  componentDidLoad() {
+    this.setValidState();
+    this.inputObserver.observe(this.el, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['invalid']
+    });
+  }
+  submit() {
+    this.submitBtns.forEach(btn => btn.loading = true);
+  }
+  findSubmitBtns() {
+    return this.el.querySelectorAll('winr-btn[type=submit]');
+  }
+  setValidState() {
+    const valid = this.form.checkValidity();
+    this.submitBtns.forEach(btn => btn.disabled = !valid);
   }
   render() {
-    return (h(Host, null, h("form", null, h("slot", null))));
+    return (h("form", null, h("slot", null)));
   }
-  static get style() { return winrFormCss; }
+  get el() { return this; }
 };
 
-const winrInputCss = ":host{display:block;position:relative;--paddint-top:1.25rem}input{padding:var(--paddint-top) 0 0.25rem;display:block;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:none;border-bottom:0.05rem solid #ced4da;outline:none;appearance:none;transition:border-color 0.15s ease-in-out}input::placeholder{opacity:0}label{padding-top:calc(var(--paddint-top) + 0.2rem);position:absolute;top:0;left:0;display:block;font-size:1rem;line-height:1em;width:100%;color:#495057;pointer-events:none;cursor:text;border-left:0.01rem solid transparent;transition:padding 0.1s ease-in-out, font-size 0.1s ease-in-out;box-sizing:border-box}input:not(:placeholder-shown)~label{padding-top:0.5rem;font-size:0.75rem;border:none;color:#777}.errors{list-style:none;margin:0.3rem 0 0;padding:0}";
+function isEmpty(value) {
+  return value === undefined ||
+    value === null ||
+    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (typeof value === 'string' && value.trim().length === 0);
+}
+
+const winrInputCss = "winr-input{display:block;position:relative;--paddint-top:1.25rem}winr-input input{padding:var(--paddint-top) 0 0.25rem;display:block;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:none;border-bottom:0.05rem solid #ced4da;outline:none;appearance:none;transition:border-color 0.15s ease-in-out}winr-input input::placeholder{opacity:0}winr-input input:not(:placeholder-shown)~label{padding-top:0.5rem;font-size:0.75rem;border:none;color:#777}winr-input input:not(:placeholder-shown):invalid{border-bottom-color:var(--wds__error-color)}winr-input label{padding-top:calc(var(--paddint-top) + 0.2rem);position:absolute;top:0;left:0;display:block;font-size:1rem;line-height:1em;width:100%;color:#495057;pointer-events:none;cursor:text;border-left:0.01rem solid transparent;transition:padding 0.1s ease-in-out, font-size 0.1s ease-in-out;box-sizing:border-box}winr-input ul.errors{list-style:none;margin:0.3rem 0 0;padding:0;color:var(--wds__error-color)}winr-input ul.errors li{padding-left:0}winr-input ul.errors li::before{display:none}";
 
 const WinrInput = class extends HTMLElement {
   constructor() {
     super();
     this.__registerHost();
-    attachShadow(this);
-    this.validable = false;
-    this.errors = [];
+    this.noValidate = false;
+    this.innerErrors = [];
+    this.updateValue = (e) => {
+      this.value = e.target.value;
+      this.setCustomValidity();
+    };
   }
   componentWillLoad() {
-    this.parseValidator(this.validator);
+    this.parseValidator(this.validators);
+    this.parseInputAttrs(this.inputAttrs);
+    this.parseErrors(this.errors);
+  }
+  componentDidLoad() {
+    this.setCustomValidity();
+  }
+  componentShouldUpdate(_, oldValue, propName) {
+    if (propName === 'valid')
+      return oldValue !== undefined;
+    return true;
   }
   parseValidator(newValue) {
     if (newValue)
-      this.innerValidator = JSON.parse(newValue);
+      this.innerValidators = JSON.parse(newValue);
   }
-  updateValue(e) {
-    this.value = e.target.value;
+  parseInputAttrs(newValue) {
+    if (newValue)
+      this.innerInputAttrs = JSON.parse(newValue);
+  }
+  parseErrors(newValue) {
+    if (newValue)
+      this.innerErrors = JSON.parse(newValue);
   }
   validate(value) {
-    if (!this.validable)
+    if (this.noValidate)
+      return;
+    if (isEmpty(this.innerValidators))
       return;
     if (this.validateTimeout)
       window.clearTimeout(this.validateTimeout);
     this.validateTimeout = window.setTimeout(() => {
-      validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
+      this.innerValidators.forEach(validator => {
+        validators[validator.name].validate(value, this.el.id, validator);
+      });
     }, 300);
   }
   validateResult(e) {
-    this.errors = e.detail;
+    this.innerErrors = e.detail || [];
+  }
+  setCustomValidity() {
+    this.input.setCustomValidity(this.innerErrors.join('\n'));
+    this.valid = this.input.checkValidity();
+  }
+  get input() {
+    return this.el.querySelector('input');
   }
   render() {
-    return (h(Host, null, h("input", { placeholder: this.label, value: this.value, onInput: (e) => this.updateValue(e) }), h("label", null, this.label), h("ul", { class: "errors" }, this.errors.map(e => h("li", null, e)))));
+    return (h(Host, { invalid: !this.valid }, h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerInputAttrs)), h("label", null, this.label), h("ul", { class: "errors" }, this.innerErrors.map(e => h("li", null, e)))));
   }
   get el() { return this; }
   static get watchers() { return {
-    "validator": ["parseValidator"],
-    "value": ["validate"]
+    "validators": ["parseValidator"],
+    "inputAttrs": ["parseInputAttrs"],
+    "errors": ["parseErrors"],
+    "value": ["validate"],
+    "innerErrors": ["setCustomValidity"]
   }; }
   static get style() { return winrInputCss; }
 };
@@ -109,9 +171,9 @@ const WinrModal = class extends HTMLElement {
   static get style() { return winrModalCss; }
 };
 
-const WinrBtn$1 = /*@__PURE__*/proxyCustomElement(WinrBtn, [4,"winr-btn",{"kind":[1],"loading":[4]}]);
-const WinrForm$1 = /*@__PURE__*/proxyCustomElement(WinrForm, [1,"winr-form"]);
-const WinrInput$1 = /*@__PURE__*/proxyCustomElement(WinrInput, [1,"winr-input",{"label":[1],"validable":[4],"validator":[1],"innerValidator":[32],"value":[32],"errors":[32]},[[0,"validateResult","validateResult"]]]);
+const WinrBtn$1 = /*@__PURE__*/proxyCustomElement(WinrBtn, [4,"winr-btn",{"kind":[1],"loading":[4],"type":[1],"disabled":[4]}]);
+const WinrForm$1 = /*@__PURE__*/proxyCustomElement(WinrForm, [4,"winr-form",null,[[2,"submit","submit"]]]);
+const WinrInput$1 = /*@__PURE__*/proxyCustomElement(WinrInput, [0,"winr-input",{"label":[1],"noValidate":[4,"no-validate"],"validators":[1],"errors":[1],"inputAttrs":[1,"input-attrs"],"value":[1025],"valid":[32],"innerInputAttrs":[32],"innerErrors":[32]},[[0,"validateResult","validateResult"]]]);
 const WinrModal$1 = /*@__PURE__*/proxyCustomElement(WinrModal, [1,"winr-modal",{"caption":[1],"shown":[32]},[[2,"click","handleBackdropClick"]]]);
 const defineCustomElements = (opts) => {
   if (typeof customElements !== 'undefined') {

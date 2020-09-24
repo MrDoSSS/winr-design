@@ -1,4 +1,4 @@
-import { p as promiseResolve, b as bootstrapLazy } from './index-bfc0f1d7.js';
+import { p as promiseResolve, b as bootstrapLazy } from './index-12ec3652.js';
 
 /*
  Stencil Client Patch Esm v2.0.3 | MIT Licensed | https://stenciljs.com
@@ -10,7 +10,7 @@ const patchEsm = () => {
 const defineCustomElements = (win, options) => {
   if (typeof window === 'undefined') return Promise.resolve();
   return patchEsm().then(() => {
-  return bootstrapLazy([["winr-btn_3",[[4,"winr-btn",{"kind":[1],"loading":[4]}],[1,"winr-form"],[1,"winr-input",{"label":[1],"validable":[4],"validator":[1],"innerValidator":[32],"value":[32],"errors":[32]},[[0,"validateResult","validateResult"]]]]],["winr-modal",[[1,"winr-modal",{"caption":[1],"shown":[32],"show":[64],"hide":[64]},[[2,"click","handleBackdropClick"]]]]]], options);
+  return bootstrapLazy([["winr-btn_3",[[4,"winr-btn",{"kind":[1],"loading":[4],"type":[1],"disabled":[4]}],[4,"winr-form",null,[[2,"submit","submit"]]],[0,"winr-input",{"label":[1],"noValidate":[4,"no-validate"],"validators":[1],"errors":[1],"inputAttrs":[1,"input-attrs"],"value":[1025],"valid":[32],"innerInputAttrs":[32],"innerErrors":[32]},[[0,"validateResult","validateResult"]]]]],["winr-modal",[[1,"winr-modal",{"caption":[1],"shown":[32],"show":[64],"hide":[64]},[[2,"click","handleBackdropClick"]]]]]], options);
   });
 };
 

@@ -7,11 +7,14 @@
 
 ## Properties
 
-| Property             | Attribute   | Description | Type      | Default     |
-| -------------------- | ----------- | ----------- | --------- | ----------- |
-| `label` _(required)_ | `label`     |             | `string`  | `undefined` |
-| `validable`          | `validable` |             | `boolean` | `false`     |
-| `validator`          | `validator` |             | `string`  | `undefined` |
+| Property             | Attribute     | Description | Type      | Default     |
+| -------------------- | ------------- | ----------- | --------- | ----------- |
+| `errors`             | `errors`      |             | `string`  | `undefined` |
+| `inputAttrs`         | `input-attrs` |             | `string`  | `undefined` |
+| `label` _(required)_ | `label`       |             | `string`  | `undefined` |
+| `noValidate`         | `no-validate` |             | `boolean` | `false`     |
+| `validators`         | `validators`  |             | `string`  | `undefined` |
+| `value`              | `value`       |             | `string`  | `undefined` |
 
 
 ----------------------------------------------

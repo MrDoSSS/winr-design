@@ -1,13 +1,10 @@
-:host {
+winr-input {
   display: block;
   position: relative;
-
   --paddint-top: 1.25rem;
 }
-
-input {
+winr-input input {
   padding: var(--paddint-top) 0 0.25rem;
-
   display: block;
   width: 100%;
   font-size: 1rem;
@@ -22,14 +19,20 @@ input {
   appearance: none;
   transition: border-color 0.15s ease-in-out;
 }
-
-input::placeholder {
+winr-input input::placeholder {
   opacity: 0;
 }
-
-label {
+winr-input input:not(:placeholder-shown) ~ label {
+  padding-top: 0.5rem;
+  font-size: 0.75rem;
+  border: none;
+  color: #777;
+}
+winr-input input:not(:placeholder-shown):invalid {
+  border-bottom-color: var(--wds__error-color);
+}
+winr-input label {
   padding-top: calc(var(--paddint-top) + 0.2rem);
-
   position: absolute;
   top: 0;
   left: 0;
@@ -44,16 +47,15 @@ label {
   transition: padding 0.1s ease-in-out, font-size 0.1s ease-in-out;
   box-sizing: border-box;
 }
-
-input:not(:placeholder-shown) ~ label {
-  padding-top: 0.5rem;
-  font-size: 0.75rem;
-  border: none;
-  color: #777;
-}
-
-.errors {
+winr-input ul.errors {
   list-style: none;
   margin: 0.3rem 0 0;
   padding: 0;
+  color: var(--wds__error-color);
+}
+winr-input ul.errors li {
+  padding-left: 0;
+}
+winr-input ul.errors li::before {
+  display: none;
 }

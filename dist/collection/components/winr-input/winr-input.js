@@ -1,42 +1,72 @@
 import { Component, Host, h, Prop, State, Watch, Listen, Element } from '@stencil/core';
 import { validators } from '@/utils/validator';
+import { isEmpty } from '@/utils/utils';
 export class WinrInput {
   constructor() {
-    this.validable = false;
-    this.errors = [];
+    this.noValidate = false;
+    this.innerErrors = [];
+    this.updateValue = (e) => {
+      this.value = e.target.value;
+      this.setCustomValidity();
+    };
   }
   componentWillLoad() {
-    this.parseValidator(this.validator);
+    this.parseValidator(this.validators);
+    this.parseInputAttrs(this.inputAttrs);
+    this.parseErrors(this.errors);
+  }
+  componentDidLoad() {
+    this.setCustomValidity();
+  }
+  componentShouldUpdate(_, oldValue, propName) {
+    if (propName === 'valid')
+      return oldValue !== undefined;
+    return true;
   }
   parseValidator(newValue) {
     if (newValue)
-      this.innerValidator = JSON.parse(newValue);
+      this.innerValidators = JSON.parse(newValue);
   }
-  updateValue(e) {
-    this.value = e.target.value;
+  parseInputAttrs(newValue) {
+    if (newValue)
+      this.innerInputAttrs = JSON.parse(newValue);
+  }
+  parseErrors(newValue) {
+    if (newValue)
+      this.innerErrors = JSON.parse(newValue);
   }
   validate(value) {
-    if (!this.validable)
+    if (this.noValidate)
+      return;
+    if (isEmpty(this.innerValidators))
       return;
     if (this.validateTimeout)
       window.clearTimeout(this.validateTimeout);
     this.validateTimeout = window.setTimeout(() => {
-      validators[this.innerValidator.name].validate(value, this.el.id, this.innerValidator);
+      this.innerValidators.forEach(validator => {
+        validators[validator.name].validate(value, this.el.id, validator);
+      });
     }, 300);
   }
   validateResult(e) {
-    this.errors = e.detail;
+    this.innerErrors = e.detail || [];
+  }
+  setCustomValidity() {
+    this.input.setCustomValidity(this.innerErrors.join('\n'));
+    this.valid = this.input.checkValidity();
+  }
+  get input() {
+    return this.el.querySelector('input');
   }
   render() {
-    return (h(Host, null,
-      h("input", { placeholder: this.label, value: this.value, onInput: (e) => this.updateValue(e) }),
+    return (h(Host, { invalid: !this.valid },
+      h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerInputAttrs)),
       h("label", null, this.label),
-      h("ul", { class: "errors" }, this.errors.map(e => h("li", null, e)))));
+      h("ul", { class: "errors" }, this.innerErrors.map(e => h("li", null, e)))));
   }
   static get is() { return "winr-input"; }
-  static get encapsulation() { return "shadow"; }
   static get originalStyleUrls() { return {
-    "$": ["winr-input.css"]
+    "$": ["winr-input.scss"]
   }; }
   static get styleUrls() { return {
     "$": ["winr-input.css"]
@@ -59,7 +89,7 @@ export class WinrInput {
       "attribute": "label",
       "reflect": false
     },
-    "validable": {
+    "noValidate": {
       "type": "boolean",
       "mutable": false,
       "complexType": {
@@ -73,11 +103,11 @@ export class WinrInput {
         "tags": [],
         "text": ""
       },
-      "attribute": "validable",
+      "attribute": "no-validate",
       "reflect": false,
       "defaultValue": "false"
     },
-    "validator": {
+    "validators": {
       "type": "string",
       "mutable": false,
       "complexType": {
@@ -91,22 +121,82 @@ export class WinrInput {
         "tags": [],
         "text": ""
       },
-      "attribute": "validator",
+      "attribute": "validators",
+      "reflect": false
+    },
+    "errors": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "errors",
+      "reflect": false
+    },
+    "inputAttrs": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "input-attrs",
+      "reflect": false
+    },
+    "value": {
+      "type": "string",
+      "mutable": true,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "value",
       "reflect": false
     }
   }; }
   static get states() { return {
-    "innerValidator": {},
-    "value": {},
-    "errors": {}
+    "valid": {},
+    "innerInputAttrs": {},
+    "innerErrors": {}
   }; }
   static get elementRef() { return "el"; }
   static get watchers() { return [{
-      "propName": "validator",
+      "propName": "validators",
       "methodName": "parseValidator"
+    }, {
+      "propName": "inputAttrs",
+      "methodName": "parseInputAttrs"
+    }, {
+      "propName": "errors",
+      "methodName": "parseErrors"
     }, {
       "propName": "value",
       "methodName": "validate"
+    }, {
+      "propName": "innerErrors",
+      "methodName": "setCustomValidity"
     }]; }
   static get listeners() { return [{
       "name": "validateResult",

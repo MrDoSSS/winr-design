@@ -54,6 +54,7 @@ const hostListenerProxy = (hostRef, methodName) => (ev) => {
 // prettier-ignore
 const hostListenerOpts = (flags) =>  (flags & 2 /* Capture */) !== 0;
 const HYDRATED_CSS = '{visibility:hidden}.hydrated{visibility:inherit}';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
 const createTime = (fnName, tagName = '') => {
     {
         return () => {
@@ -160,6 +161,7 @@ const isComplexType = (o) => {
 // export function h(nodeName: string | d.FunctionalComponent, vnodeData: d.PropsType, ...children: d.ChildType[]): d.VNode;
 const h = (nodeName, vnodeData, ...children) => {
     let child = null;
+    let key = null;
     let slotName = null;
     let simple = false;
     let lastSimple = false;
@@ -188,6 +190,10 @@ const h = (nodeName, vnodeData, ...children) => {
     };
     walk(children);
     if (vnodeData) {
+        // normalize class / classname attributes
+        if ( vnodeData.key) {
+            key = vnodeData.key;
+        }
         if ( vnodeData.name) {
             slotName = vnodeData.name;
         }
@@ -209,6 +215,9 @@ const h = (nodeName, vnodeData, ...children) => {
         vnode.$children$ = vNodeChildren;
     }
     {
+        vnode.$key$ = key;
+    }
+    {
         vnode.$name$ = slotName;
     }
     return vnode;
@@ -223,6 +232,9 @@ const newVNode = (tag, text) => {
     };
     {
         vnode.$attrs$ = null;
+    }
+    {
+        vnode.$key$ = null;
     }
     {
         vnode.$name$ = null;
@@ -249,6 +261,39 @@ const setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags) => {
             const newClasses = parseClassList(newValue);
             classList.remove(...oldClasses.filter(c => c && !newClasses.includes(c)));
             classList.add(...newClasses.filter(c => c && !oldClasses.includes(c)));
+        }
+        else if ( memberName === 'style') {
+            // update style attribute, css properties and values
+            {
+                for (const prop in oldValue) {
+                    if (!newValue || newValue[prop] == null) {
+                        if ( prop.includes('-')) {
+                            elm.style.removeProperty(prop);
+                        }
+                        else {
+                            elm.style[prop] = '';
+                        }
+                    }
+                }
+            }
+            for (const prop in newValue) {
+                if (!oldValue || newValue[prop] !== oldValue[prop]) {
+                    if ( prop.includes('-')) {
+                        elm.style.setProperty(prop, newValue[prop]);
+                    }
+                    else {
+                        elm.style[prop] = newValue[prop];
+                    }
+                }
+            }
+        }
+        else if ( memberName === 'key')
+            ;
+        else if ( memberName === 'ref') {
+            // minifier will clean this up
+            if (newValue) {
+                newValue(elm);
+            }
         }
         else if ( ( !isProp ) && memberName[0] === 'o' && memberName[1] === 'n') {
             // Event Handlers
@@ -309,16 +354,36 @@ const setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags) => {
                 }
                 catch (e) { }
             }
+            /**
+             * Need to manually update attribute if:
+             * - memberName is not an attribute
+             * - if we are rendering the host element in order to reflect attribute
+             * - if it's a SVG, since properties might not work in <svg>
+             * - if the newValue is null/undefined or 'false'.
+             */
+            let xlink = false;
+            {
+                if (ln !== (ln = ln.replace(/^xlink\:?/, ''))) {
+                    memberName = ln;
+                    xlink = true;
+                }
+            }
             if (newValue == null || newValue === false) {
                 if (newValue !== false || elm.getAttribute(memberName) === '') {
-                    {
+                    if ( xlink) {
+                        elm.removeAttributeNS(XLINK_NS, memberName);
+                    }
+                    else {
                         elm.removeAttribute(memberName);
                     }
                 }
             }
             else if ((!isProp || flags & 4 /* isHost */ || isSvg) && !isComplex) {
                 newValue = newValue === true ? '' : newValue;
-                {
+                if ( xlink) {
+                    elm.setAttributeNS(XLINK_NS, memberName, newValue);
+                }
+                else {
                     elm.setAttribute(memberName, newValue);
                 }
             }
@@ -465,6 +530,7 @@ const removeVnodes = (vnodes, startIdx, endIdx, vnode, elm) => {
     for (; startIdx <= endIdx; ++startIdx) {
         if ((vnode = vnodes[startIdx])) {
             elm = vnode.$elm$;
+            callNodeRefs(vnode);
             {
                 // we're removing this element
                 // so it's possible we need to show slot fallback content now
@@ -487,6 +553,8 @@ const removeVnodes = (vnodes, startIdx, endIdx, vnode, elm) => {
 const updateChildren = (parentElm, oldCh, newVNode, newCh) => {
     let oldStartIdx = 0;
     let newStartIdx = 0;
+    let idxInOld = 0;
+    let i = 0;
     let oldEndIdx = oldCh.length - 1;
     let oldStartVnode = oldCh[0];
     let oldEndVnode = oldCh[oldEndIdx];
@@ -494,6 +562,7 @@ const updateChildren = (parentElm, oldCh, newVNode, newCh) => {
     let newStartVnode = newCh[0];
     let newEndVnode = newCh[newEndIdx];
     let node;
+    let elmToMove;
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
         if (oldStartVnode == null) {
             // Vnode might have been moved left
@@ -539,7 +608,29 @@ const updateChildren = (parentElm, oldCh, newVNode, newCh) => {
             newStartVnode = newCh[++newStartIdx];
         }
         else {
+            // createKeyToOldIdx
+            idxInOld = -1;
             {
+                for (i = oldStartIdx; i <= oldEndIdx; ++i) {
+                    if (oldCh[i] && oldCh[i].$key$ !== null && oldCh[i].$key$ === newStartVnode.$key$) {
+                        idxInOld = i;
+                        break;
+                    }
+                }
+            }
+            if ( idxInOld >= 0) {
+                elmToMove = oldCh[idxInOld];
+                if (elmToMove.$tag$ !== newStartVnode.$tag$) {
+                    node = createElm(oldCh && oldCh[newStartIdx], newVNode, idxInOld, parentElm);
+                }
+                else {
+                    patch(elmToMove, newStartVnode);
+                    oldCh[idxInOld] = undefined;
+                    node = elmToMove.$elm$;
+                }
+                newStartVnode = newCh[++newStartIdx];
+            }
+            else {
                 // new element
                 node = createElm(oldCh && oldCh[newStartIdx], newVNode, newStartIdx, parentElm);
                 newStartVnode = newCh[++newStartIdx];
@@ -565,7 +656,9 @@ const isSameVnode = (vnode1, vnode2) => {
         if ( vnode1.$tag$ === 'slot') {
             return vnode1.$name$ === vnode2.$name$;
         }
-        return true;
+        {
+            return vnode1.$key$ === vnode2.$key$;
+        }
     }
     return false;
 };
@@ -756,6 +849,12 @@ const isNodeLocatedInSlot = (nodeToRelocate, slotNameAttr) => {
         return true;
     }
     return slotNameAttr === '';
+};
+const callNodeRefs = (vNode) => {
+    {
+        vNode.$attrs$ && vNode.$attrs$.ref && vNode.$attrs$.ref(null);
+        vNode.$children$ && vNode.$children$.map(callNodeRefs);
+    }
 };
 const renderVdom = (hostRef, renderFnResults) => {
     const hostElm = hostRef.$hostElement$;
@@ -972,12 +1071,19 @@ const postUpdateComponent = (hostRef) => {
     const tagName = hostRef.$cmpMeta$.$tagName$;
     const elm = hostRef.$hostElement$;
     const endPostUpdate = createTime('postUpdate', tagName);
+    const instance =  hostRef.$lazyInstance$ ;
     const ancestorComponent = hostRef.$ancestorComponent$;
+    {
+        safeCall(instance, 'componentDidRender');
+    }
     if (!(hostRef.$flags$ & 64 /* hasLoadedComponent */)) {
         hostRef.$flags$ |= 64 /* hasLoadedComponent */;
         {
             // DOM WRITE!
             addHydratedFlag(elm);
+        }
+        {
+            safeCall(instance, 'componentDidLoad');
         }
         endPostUpdate();
         {
@@ -1082,6 +1188,11 @@ const setValue = (ref, propName, newVal, cmpMeta) => {
                 }
             }
             if ( (flags & (2 /* hasRendered */ | 16 /* isQueuedForUpdate */)) === 2 /* hasRendered */) {
+                if ( instance.componentShouldUpdate) {
+                    if (instance.componentShouldUpdate(newVal, oldVal, propName) === false) {
+                        return;
+                    }
+                }
                 // looks like this value actually changed, so we've got work to do!
                 // but only if we've already rendered, otherwise just chill out
                 // queue that we need to do an update, but don't worry about queuing

@@ -7,15 +7,20 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 export namespace Components {
     interface WinrBtn {
+        "disabled": boolean;
         "kind": 'primary' | 'secondary';
         "loading": boolean;
+        "type": 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
     }
     interface WinrInput {
+        "errors": string;
+        "inputAttrs": string;
         "label": string;
-        "validable": boolean;
-        "validator": string;
+        "noValidate": boolean;
+        "validators": string;
+        "value": string;
     }
     interface WinrModal {
         "caption": string;
@@ -57,20 +62,25 @@ declare global {
 }
 declare namespace LocalJSX {
     interface WinrBtn {
+        "disabled"?: boolean;
         "kind"?: 'primary' | 'secondary';
         "loading"?: boolean;
+        "type"?: 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
     }
     interface WinrInput {
+        "errors"?: string;
+        "inputAttrs"?: string;
         "label": string;
-        "validable"?: boolean;
-        "validator"?: string;
+        "noValidate"?: boolean;
+        "validators"?: string;
+        "value"?: string;
     }
     interface WinrModal {
         "caption"?: string;
-        "onClosed"?: (event: CustomEvent<any>) => void;
-        "onOpened"?: (event: CustomEvent<any>) => void;
+        "onClosed"?: (event: CustomEvent<void>) => void;
+        "onOpened"?: (event: CustomEvent<void>) => void;
     }
     interface IntrinsicElements {
         "winr-btn": WinrBtn;
