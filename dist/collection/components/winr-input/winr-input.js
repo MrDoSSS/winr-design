@@ -10,9 +10,12 @@ export class WinrInput {
       this.setCustomValidity();
     };
   }
+  get input() {
+    return this.el.querySelector('input');
+  }
   componentWillLoad() {
     this.parseValidator(this.validators);
-    this.parseInputAttrs(this.inputAttrs);
+    this.parseNative(this.native);
     this.parseErrors(this.errors);
   }
   componentDidLoad() {
@@ -24,16 +27,13 @@ export class WinrInput {
     return true;
   }
   parseValidator(newValue) {
-    if (newValue)
-      this.innerValidators = JSON.parse(newValue);
+    this.innerValidators = !!newValue ? JSON.parse(newValue) : {};
   }
-  parseInputAttrs(newValue) {
-    if (newValue)
-      this.innerInputAttrs = JSON.parse(newValue);
+  parseNative(newValue) {
+    this.innerNative = !!newValue ? JSON.parse(newValue) : {};
   }
   parseErrors(newValue) {
-    if (newValue)
-      this.innerErrors = JSON.parse(newValue);
+    this.innerErrors = !!newValue ? JSON.parse(newValue) : [];
   }
   validate(value) {
     if (this.noValidate)
@@ -52,17 +52,16 @@ export class WinrInput {
     this.innerErrors = e.detail || [];
   }
   setCustomValidity() {
+    if (!this.input)
+      return;
     this.input.setCustomValidity(this.innerErrors.join('\n'));
     this.valid = this.input.checkValidity();
   }
-  get input() {
-    return this.el.querySelector('input');
-  }
   render() {
     return (h(Host, { invalid: !this.valid },
-      h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerInputAttrs)),
+      h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerNative)),
       h("label", null, this.label),
-      h("ul", { class: "errors" }, this.innerErrors.map(e => h("li", null, e)))));
+      h("ul", { class: "errors" }, this.innerErrors.map(e => (h("li", null, e))))));
   }
   static get is() { return "winr-input"; }
   static get originalStyleUrls() { return {
@@ -141,7 +140,7 @@ export class WinrInput {
       "attribute": "errors",
       "reflect": false
     },
-    "inputAttrs": {
+    "native": {
       "type": "string",
       "mutable": false,
       "complexType": {
@@ -155,7 +154,7 @@ export class WinrInput {
         "tags": [],
         "text": ""
       },
-      "attribute": "input-attrs",
+      "attribute": "native",
       "reflect": false
     },
     "value": {
@@ -178,7 +177,7 @@ export class WinrInput {
   }; }
   static get states() { return {
     "valid": {},
-    "innerInputAttrs": {},
+    "innerNative": {},
     "innerErrors": {}
   }; }
   static get elementRef() { return "el"; }
@@ -186,8 +185,8 @@ export class WinrInput {
       "propName": "validators",
       "methodName": "parseValidator"
     }, {
-      "propName": "inputAttrs",
-      "methodName": "parseInputAttrs"
+      "propName": "native",
+      "methodName": "parseNative"
     }, {
       "propName": "errors",
       "methodName": "parseErrors"

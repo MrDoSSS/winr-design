@@ -28,6 +28,7 @@ winr-input input:not(:placeholder-shown) ~ label {
   border: none;
   color: #777;
 }
+winr-input[errors] input,
 winr-input input:not(:placeholder-shown):invalid {
   border-bottom-color: var(--wds__error-color);
 }

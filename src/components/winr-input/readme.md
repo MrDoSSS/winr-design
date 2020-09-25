@@ -10,8 +10,8 @@
 | Property             | Attribute     | Description | Type      | Default     |
 | -------------------- | ------------- | ----------- | --------- | ----------- |
 | `errors`             | `errors`      |             | `string`  | `undefined` |
-| `inputAttrs`         | `input-attrs` |             | `string`  | `undefined` |
 | `label` _(required)_ | `label`       |             | `string`  | `undefined` |
+| `native`             | `native`      |             | `string`  | `undefined` |
 | `noValidate`         | `no-validate` |             | `boolean` | `false`     |
 | `validators`         | `validators`  |             | `string`  | `undefined` |
 | `value`              | `value`       |             | `string`  | `undefined` |

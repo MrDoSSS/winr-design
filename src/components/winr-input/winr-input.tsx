@@ -4,7 +4,7 @@ import { isEmpty } from '@/utils/utils'
 
 @Component({
   tag: 'winr-input',
-  styleUrl: 'winr-input.scss'
+  styleUrl: 'winr-input.scss',
 })
 export class WinrInput {
   validateTimeout: number
@@ -16,11 +16,11 @@ export class WinrInput {
   @Prop() noValidate: boolean = false
   @Prop() validators: string
   @Prop() errors: string
-  @Prop() inputAttrs: string
+  @Prop() native: string
   @Prop({ mutable: true }) value: string
 
   @State() valid: boolean
-  @State() innerInputAttrs: { [key: string]: string | number | boolean }
+  @State() innerNative: { [key: string]: string | number | boolean }
   @State() innerErrors: ValidateError[] = []
 
   updateValue = (e: InputEvent) => {
@@ -28,41 +28,43 @@ export class WinrInput {
     this.setCustomValidity()
   }
 
-  componentWillLoad () {
+  get input() {
+    return this.el.querySelector('input')
+  }
+
+  componentWillLoad() {
     this.parseValidator(this.validators)
-    this.parseInputAttrs(this.inputAttrs)
+    this.parseNative(this.native)
     this.parseErrors(this.errors)
   }
 
-  componentDidLoad () {
+  componentDidLoad() {
     this.setCustomValidity()
   }
 
-  componentShouldUpdate (_: string, oldValue: boolean, propName: string) {
+  componentShouldUpdate(_: string, oldValue: boolean, propName: string) {
     if (propName === 'valid') return oldValue !== undefined
 
     return true
   }
 
   @Watch('validators')
-  parseValidator (newValue: string) {
-    if (newValue) this.innerValidators = JSON.parse(newValue)
+  parseValidator(newValue: string) {
+    this.innerValidators = !!newValue ? JSON.parse(newValue) : {}
   }
 
-  @Watch('inputAttrs')
-  parseInputAttrs (newValue: string) {
-    if (newValue) this.innerInputAttrs = JSON.parse(newValue)
+  @Watch('native')
+  parseNative(newValue: string) {
+    this.innerNative = !!newValue ? JSON.parse(newValue) : {}
   }
 
   @Watch('errors')
-  parseErrors (newValue: string) {
-    if (newValue) this.innerErrors = JSON.parse(newValue)
+  parseErrors(newValue: string) {
+    this.innerErrors = !!newValue ? JSON.parse(newValue) : []
   }
 
-
-
   @Watch('value')
-  validate (value: string) {
+  validate(value: string) {
     if (this.noValidate) return
     if (isEmpty(this.innerValidators)) return
     if (this.validateTimeout) window.clearTimeout(this.validateTimeout)
@@ -75,32 +77,27 @@ export class WinrInput {
   }
 
   @Listen('validateResult')
-  validateResult (e: CustomEvent<ValidateError[]>) {
+  validateResult(e: CustomEvent<ValidateError[]>) {
     this.innerErrors = e.detail || []
   }
 
   @Watch('innerErrors')
-  setCustomValidity () {
+  setCustomValidity() {
+    if (!this.input) return
+
     this.input.setCustomValidity(this.innerErrors.join('\n'))
     this.valid = this.input.checkValidity()
   }
 
-  get input () {
-    return this.el.querySelector('input')
-  }
-
-  render () {
+  render() {
     return (
       <Host invalid={!this.valid}>
-        <input
-          placeholder={this.label}
-          value={this.value}
-          onInput={this.updateValue}
-          {...this.innerInputAttrs}
-        />
-        <label >{this.label}</label>
+        <input placeholder={this.label} value={this.value} onInput={this.updateValue} {...this.innerNative} />
+        <label>{this.label}</label>
         <ul class="errors">
-          {this.innerErrors.map(e => <li>{e}</li>)}
+          {this.innerErrors.map(e => (
+            <li>{e}</li>
+          ))}
         </ul>
       </Host>
     )

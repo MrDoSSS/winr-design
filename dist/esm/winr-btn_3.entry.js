@@ -24,6 +24,9 @@ const WinrForm = class {
   get form() {
     return this.el.querySelector('form');
   }
+  componentWillLoad() {
+    this.parseNative(this.native);
+  }
   componentDidRender() {
     this.submitBtns = this.findSubmitBtns();
   }
@@ -32,23 +35,30 @@ const WinrForm = class {
     this.inputObserver.observe(this.el, {
       attributes: true,
       subtree: true,
-      attributeFilter: ['invalid']
+      attributeFilter: ['invalid'],
     });
   }
+  parseNative(newValue) {
+    if (newValue)
+      this.innerNative = JSON.parse(newValue);
+  }
   submit() {
-    this.submitBtns.forEach(btn => btn.loading = true);
+    this.submitBtns.forEach(btn => (btn.loading = true));
   }
   findSubmitBtns() {
     return this.el.querySelectorAll('winr-btn[type=submit]');
   }
   setValidState() {
     const valid = this.form.checkValidity();
-    this.submitBtns.forEach(btn => btn.disabled = !valid);
+    this.submitBtns.forEach(btn => (btn.disabled = !valid));
   }
   render() {
-    return (h("form", null, h("slot", null)));
+    return (h("form", Object.assign({}, this.innerNative), h("slot", null)));
   }
   get el() { return getElement(this); }
+  static get watchers() { return {
+    "native": ["parseNative"]
+  }; }
 };
 
 function isEmpty(value) {
@@ -58,7 +68,7 @@ function isEmpty(value) {
     (typeof value === 'string' && value.trim().length === 0);
 }
 
-const winrInputCss = "winr-input{display:block;position:relative;--paddint-top:1.25rem}winr-input input{padding:var(--paddint-top) 0 0.25rem;display:block;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:none;border-bottom:0.05rem solid #ced4da;outline:none;appearance:none;transition:border-color 0.15s ease-in-out}winr-input input::placeholder{opacity:0}winr-input input:not(:placeholder-shown)~label{padding-top:0.5rem;font-size:0.75rem;border:none;color:#777}winr-input input:not(:placeholder-shown):invalid{border-bottom-color:var(--wds__error-color)}winr-input label{padding-top:calc(var(--paddint-top) + 0.2rem);position:absolute;top:0;left:0;display:block;font-size:1rem;line-height:1em;width:100%;color:#495057;pointer-events:none;cursor:text;border-left:0.01rem solid transparent;transition:padding 0.1s ease-in-out, font-size 0.1s ease-in-out;box-sizing:border-box}winr-input ul.errors{list-style:none;margin:0.3rem 0 0;padding:0;color:var(--wds__error-color)}winr-input ul.errors li{padding-left:0}winr-input ul.errors li::before{display:none}";
+const winrInputCss = "winr-input{display:block;position:relative;--paddint-top:1.25rem}winr-input input{padding:var(--paddint-top) 0 0.25rem;display:block;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:none;border-bottom:0.05rem solid #ced4da;outline:none;appearance:none;transition:border-color 0.15s ease-in-out}winr-input input::placeholder{opacity:0}winr-input input:not(:placeholder-shown)~label{padding-top:0.5rem;font-size:0.75rem;border:none;color:#777}winr-input[errors] input,winr-input input:not(:placeholder-shown):invalid{border-bottom-color:var(--wds__error-color)}winr-input label{padding-top:calc(var(--paddint-top) + 0.2rem);position:absolute;top:0;left:0;display:block;font-size:1rem;line-height:1em;width:100%;color:#495057;pointer-events:none;cursor:text;border-left:0.01rem solid transparent;transition:padding 0.1s ease-in-out, font-size 0.1s ease-in-out;box-sizing:border-box}winr-input ul.errors{list-style:none;margin:0.3rem 0 0;padding:0;color:var(--wds__error-color)}winr-input ul.errors li{padding-left:0}winr-input ul.errors li::before{display:none}";
 
 const WinrInput = class {
   constructor(hostRef) {
@@ -70,9 +80,12 @@ const WinrInput = class {
       this.setCustomValidity();
     };
   }
+  get input() {
+    return this.el.querySelector('input');
+  }
   componentWillLoad() {
     this.parseValidator(this.validators);
-    this.parseInputAttrs(this.inputAttrs);
+    this.parseNative(this.native);
     this.parseErrors(this.errors);
   }
   componentDidLoad() {
@@ -84,16 +97,13 @@ const WinrInput = class {
     return true;
   }
   parseValidator(newValue) {
-    if (newValue)
-      this.innerValidators = JSON.parse(newValue);
+    this.innerValidators = !!newValue ? JSON.parse(newValue) : {};
   }
-  parseInputAttrs(newValue) {
-    if (newValue)
-      this.innerInputAttrs = JSON.parse(newValue);
+  parseNative(newValue) {
+    this.innerNative = !!newValue ? JSON.parse(newValue) : {};
   }
   parseErrors(newValue) {
-    if (newValue)
-      this.innerErrors = JSON.parse(newValue);
+    this.innerErrors = !!newValue ? JSON.parse(newValue) : [];
   }
   validate(value) {
     if (this.noValidate)
@@ -112,19 +122,18 @@ const WinrInput = class {
     this.innerErrors = e.detail || [];
   }
   setCustomValidity() {
+    if (!this.input)
+      return;
     this.input.setCustomValidity(this.innerErrors.join('\n'));
     this.valid = this.input.checkValidity();
   }
-  get input() {
-    return this.el.querySelector('input');
-  }
   render() {
-    return (h(Host, { invalid: !this.valid }, h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerInputAttrs)), h("label", null, this.label), h("ul", { class: "errors" }, this.innerErrors.map(e => h("li", null, e)))));
+    return (h(Host, { invalid: !this.valid }, h("input", Object.assign({ placeholder: this.label, value: this.value, onInput: this.updateValue }, this.innerNative)), h("label", null, this.label), h("ul", { class: "errors" }, this.innerErrors.map(e => (h("li", null, e))))));
   }
   get el() { return getElement(this); }
   static get watchers() { return {
     "validators": ["parseValidator"],
-    "inputAttrs": ["parseInputAttrs"],
+    "native": ["parseNative"],
     "errors": ["parseErrors"],
     "value": ["validate"],
     "innerErrors": ["setCustomValidity"]

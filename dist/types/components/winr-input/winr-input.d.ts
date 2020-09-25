@@ -7,23 +7,23 @@ export declare class WinrInput {
   noValidate: boolean;
   validators: string;
   errors: string;
-  inputAttrs: string;
+  native: string;
   value: string;
   valid: boolean;
-  innerInputAttrs: {
+  innerNative: {
     [key: string]: string | number | boolean;
   };
   innerErrors: ValidateError[];
   updateValue: (e: InputEvent) => void;
+  get input(): HTMLInputElement;
   componentWillLoad(): void;
   componentDidLoad(): void;
   componentShouldUpdate(_: string, oldValue: boolean, propName: string): boolean;
   parseValidator(newValue: string): void;
-  parseInputAttrs(newValue: string): void;
+  parseNative(newValue: string): void;
   parseErrors(newValue: string): void;
   validate(value: string): void;
   validateResult(e: CustomEvent<ValidateError[]>): void;
   setCustomValidity(): void;
-  get input(): HTMLInputElement;
   render(): any;
 }

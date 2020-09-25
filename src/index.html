@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Winvestor Components</title>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-  <title>Winvestor Components</title>
+    <script type="module" src="/build/winr-components.esm.js"></script>
+    <script nomodule src="/build/winr-components.js"></script>
 
-  <script type="module" src="/build/winr-components.esm.js"></script>
-  <script nomodule src="/build/winr-components.js"></script>
+    <link rel="stylesheet" href="/build/winr-components.css" />
+  </head>
 
-  <link rel="stylesheet" href="/build/winr-components.css">
-</head>
-
-<body class="wds">
-  <winr-form>
-    <winr-input label="test" id="id" input-attrs='{"required": true}'></winr-input>
-    <winr-btn type="submit">Submit</winr-btn>
-  </winr-form>
-</body>
-
+  <body class="wds">
+    <winr-form native='{"name": "asd"}'>
+      <winr-input label="test" id="id" native='{"required": true, "name": "asd"}'></winr-input>
+      <winr-btn type="submit">Submit</winr-btn>
+    </winr-form>
+  </body>
 </html>

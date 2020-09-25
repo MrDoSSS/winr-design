@@ -13,11 +13,12 @@ export namespace Components {
         "type": 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
+        "native": string;
     }
     interface WinrInput {
         "errors": string;
-        "inputAttrs": string;
         "label": string;
+        "native": string;
         "noValidate": boolean;
         "validators": string;
         "value": string;
@@ -68,11 +69,12 @@ declare namespace LocalJSX {
         "type"?: 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
+        "native"?: string;
     }
     interface WinrInput {
         "errors"?: string;
-        "inputAttrs"?: string;
         "label": string;
+        "native"?: string;
         "noValidate"?: boolean;
         "validators"?: string;
         "value"?: string;

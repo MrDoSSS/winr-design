@@ -32,11 +32,12 @@ winr-input {
         border: none;
         color: #777;
       }
-
-      &:invalid {
-        border-bottom-color: var(--wds__error-color);
-      }
     }
+  }
+
+  &[errors] input,
+  input:not(:placeholder-shown):invalid {
+    border-bottom-color: var(--wds__error-color);
   }
 
   label {
