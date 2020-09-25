@@ -28,9 +28,6 @@ const WinrForm = class {
   get form() {
     return this.el.querySelector('form');
   }
-  componentWillLoad() {
-    this.parseNative(this.native);
-  }
   componentDidRender() {
     this.submitBtns = this.findSubmitBtns();
   }
@@ -41,10 +38,6 @@ const WinrForm = class {
       subtree: true,
       attributeFilter: ['invalid'],
     });
-  }
-  parseNative(newValue) {
-    if (newValue)
-      this.innerNative = JSON.parse(newValue);
   }
   submit() {
     this.submitBtns.forEach(btn => (btn.loading = true));
@@ -57,12 +50,9 @@ const WinrForm = class {
     this.submitBtns.forEach(btn => (btn.disabled = !valid));
   }
   render() {
-    return (index.h("form", Object.assign({}, this.innerNative), index.h("slot", null)));
+    return (index.h(index.Host, null, index.h("slot", null)));
   }
   get el() { return index.getElement(this); }
-  static get watchers() { return {
-    "native": ["parseNative"]
-  }; }
 };
 
 function isEmpty(value) {

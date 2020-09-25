@@ -13,7 +13,6 @@ export namespace Components {
         "type": 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
-        "native": string;
     }
     interface WinrInput {
         "errors": string;
@@ -69,7 +68,6 @@ declare namespace LocalJSX {
         "type"?: 'button' | 'submit' | 'reset';
     }
     interface WinrForm {
-        "native"?: string;
     }
     interface WinrInput {
         "errors"?: string;

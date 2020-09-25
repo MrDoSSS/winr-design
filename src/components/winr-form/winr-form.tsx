@@ -1,4 +1,4 @@
-import { Component, h, Listen, Element, State, Prop, Watch } from '@stencil/core'
+import { Component, h, Listen, Element, Host } from '@stencil/core'
 
 @Component({
   tag: 'winr-form',
@@ -7,17 +7,10 @@ export class WinrForm {
   submitBtns: NodeListOf<HTMLWinrBtnElement>
   inputObserver = new MutationObserver(this.setValidState.bind(this))
 
-  @Prop() native: string
-
   @Element() el: HTMLWinrFormElement
-  @State() innerNative: { [key: string]: string | number | boolean }
 
   get form() {
     return this.el.querySelector('form')
-  }
-
-  componentWillLoad() {
-    this.parseNative(this.native)
   }
 
   componentDidRender() {
@@ -32,11 +25,6 @@ export class WinrForm {
       subtree: true,
       attributeFilter: ['invalid'],
     })
-  }
-
-  @Watch('native')
-  parseNative(newValue: string) {
-    if (newValue) this.innerNative = JSON.parse(newValue)
   }
 
   @Listen('submit', { capture: true })
@@ -56,9 +44,9 @@ export class WinrForm {
 
   render() {
     return (
-      <form {...this.innerNative}>
+      <Host>
         <slot></slot>
-      </form>
+      </Host>
     )
   }
 }

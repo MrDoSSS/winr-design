@@ -1,4 +1,4 @@
-import { r as registerInstance, h, g as getElement, H as Host } from './index-12ec3652.js';
+import { r as registerInstance, h, H as Host, g as getElement } from './index-12ec3652.js';
 import { v as validators } from './validator-a7a086e8.js';
 
 const winrBtnCss = ":host{display:inline-block}";
@@ -24,9 +24,6 @@ const WinrForm = class {
   get form() {
     return this.el.querySelector('form');
   }
-  componentWillLoad() {
-    this.parseNative(this.native);
-  }
   componentDidRender() {
     this.submitBtns = this.findSubmitBtns();
   }
@@ -37,10 +34,6 @@ const WinrForm = class {
       subtree: true,
       attributeFilter: ['invalid'],
     });
-  }
-  parseNative(newValue) {
-    if (newValue)
-      this.innerNative = JSON.parse(newValue);
   }
   submit() {
     this.submitBtns.forEach(btn => (btn.loading = true));
@@ -53,12 +46,9 @@ const WinrForm = class {
     this.submitBtns.forEach(btn => (btn.disabled = !valid));
   }
   render() {
-    return (h("form", Object.assign({}, this.innerNative), h("slot", null)));
+    return (h(Host, null, h("slot", null)));
   }
   get el() { return getElement(this); }
-  static get watchers() { return {
-    "native": ["parseNative"]
-  }; }
 };
 
 function isEmpty(value) {

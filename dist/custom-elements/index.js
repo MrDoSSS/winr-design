@@ -31,9 +31,6 @@ const WinrForm = class extends HTMLElement {
   get form() {
     return this.el.querySelector('form');
   }
-  componentWillLoad() {
-    this.parseNative(this.native);
-  }
   componentDidRender() {
     this.submitBtns = this.findSubmitBtns();
   }
@@ -44,10 +41,6 @@ const WinrForm = class extends HTMLElement {
       subtree: true,
       attributeFilter: ['invalid'],
     });
-  }
-  parseNative(newValue) {
-    if (newValue)
-      this.innerNative = JSON.parse(newValue);
   }
   submit() {
     this.submitBtns.forEach(btn => (btn.loading = true));
@@ -60,12 +53,9 @@ const WinrForm = class extends HTMLElement {
     this.submitBtns.forEach(btn => (btn.disabled = !valid));
   }
   render() {
-    return (h("form", Object.assign({}, this.innerNative), h("slot", null)));
+    return (h(Host, null, h("slot", null)));
   }
   get el() { return this; }
-  static get watchers() { return {
-    "native": ["parseNative"]
-  }; }
 };
 
 function isEmpty(value) {
@@ -181,7 +171,7 @@ const WinrModal = class extends HTMLElement {
 };
 
 const WinrBtn$1 = /*@__PURE__*/proxyCustomElement(WinrBtn, [4,"winr-btn",{"kind":[1],"loading":[4],"type":[1],"disabled":[4]}]);
-const WinrForm$1 = /*@__PURE__*/proxyCustomElement(WinrForm, [4,"winr-form",{"native":[1],"innerNative":[32]},[[2,"submit","submit"]]]);
+const WinrForm$1 = /*@__PURE__*/proxyCustomElement(WinrForm, [4,"winr-form",null,[[2,"submit","submit"]]]);
 const WinrInput$1 = /*@__PURE__*/proxyCustomElement(WinrInput, [0,"winr-input",{"label":[1],"noValidate":[4,"no-validate"],"validators":[1],"errors":[1],"native":[1],"value":[1025],"valid":[32],"innerNative":[32],"innerErrors":[32]},[[0,"validateResult","validateResult"]]]);
 const WinrModal$1 = /*@__PURE__*/proxyCustomElement(WinrModal, [1,"winr-modal",{"caption":[1],"shown":[32]},[[2,"click","handleBackdropClick"]]]);
 const defineCustomElements = (opts) => {
